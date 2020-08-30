@@ -1,0 +1,30 @@
+[
+  {
+    "placeImage": "images/product/product1.jpg",
+    "placeName": "Sizare salad",
+    "placeItems": ["Salad","Italian","Mongolia","Second Food","Natural"],
+    "minOrder": 20,
+    "maxOrder": 50
+  },
+  {
+    "placeImage": "images/product/product2.jpg",
+    "placeName": "Mongolian Cheese salad",
+    "placeItems": ["Salad","Italian","Mongolia","Second Food","Natural"],
+    "minOrder": 20,
+    "maxOrder": 40
+  },
+  {
+    "placeImage": "images/product/product3.jpg",
+    "placeName": "German potato salad",
+    "placeItems": ["Salad","Italian","Mongolia","Second Food","Natural"],
+    "minOrder": 30,
+    "maxOrder": 50
+  },
+  {
+    "placeImage": "images/product/product4.jpg",
+    "placeName": "Chicken salad",
+    "placeItems": ["Salad","Italian","Mongolia","Second Food","Natural"],
+    "minOrder": 20,
+    "maxOrder": 40
+  }
+]

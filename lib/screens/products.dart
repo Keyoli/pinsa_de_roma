@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/Theme/navigatorredbox.dart';
 import 'package:pinsaderoma/Theme/navigatorsection.dart';
-import 'package:pinsaderoma/finalproduct.dart';
-import 'package:pinsaderoma/mybag.dart';
-import 'package:pinsaderoma/navigator/about.dart';
-import 'package:pinsaderoma/navigator/contact.dart';
-import 'package:pinsaderoma/navigator/settings.dart';
+import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/navigator/singleProduct_screen.dart';
+import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/navigator/bag_screen.dart';
+import 'package:pinsaderoma/navigator/about_screen.dart';
+import 'package:pinsaderoma/navigator/contact_screen.dart';
+import 'package:pinsaderoma/navigator/settings_screen.dart';
 
-import 'Catagore.dart';
+import 'navigator/main_screen.dart';
 import 'autentication/landingscreen.dart';
 import 'components/addBasketButton.dart';
 
@@ -30,7 +30,6 @@ List<String> _productName = [
   'German salad',
   'Chicken salad',
 ];
-//:TODO 1. Slider nemeh
 
 ListTile _textStyling(String text){
   return ListTile(
@@ -166,7 +165,7 @@ class _ProductMainState extends State<ProductMain> {
                       onPressed: (){
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => NavigateAbout(),
+                          builder: (context) => AboutScreen(),
                         ));
                       },
                       child: _textStyling('About'),

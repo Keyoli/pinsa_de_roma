@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/Catagore.dart';
 
 class ButtonRedMain extends StatelessWidget {
-
+  final bool isAdmin;
   final String text;
   final double width;
+  final Function onPress;
 
-  const ButtonRedMain({
-    Key key, this.text, this.width,
-  }) : super(key: key);
+  ButtonRedMain({
+    this.isAdmin = false,
+    @required this.onPress,
+    @required this.text,
+    @required this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +32,7 @@ class ButtonRedMain extends StatelessWidget {
         borderRadius: BorderRadius.circular(28.0),
         child: FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 12.0),
-          onPressed: (){
-            Navigator.push(context, new MaterialPageRoute(builder: (context) => CatagoreMain()));
-          },
+          onPressed: onPress,
           color: Colors.redAccent,
           child: Text(text, style: TextStyle( color: Colors.white, fontSize: 20.0, fontFamily: 'Calibri',)),
           splashColor: Theme.of(context).accentColor,

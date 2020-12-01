@@ -5,6 +5,7 @@ import 'package:pinsaderoma/Theme/SlideUpSignUpWidget.dart';
 
 // *TODO: API gargah, frontEnd token hadgaldag bolgoh
 class LandingPage extends StatelessWidget {
+  static const String id = '/';
 
 
   showBottomSheetSignIn(context){

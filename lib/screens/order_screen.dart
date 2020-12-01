@@ -181,12 +181,12 @@ class _PurchaseMainState extends State<PurchaseMain> {
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),),
-                      cupertinSeletor(),
+                      //cupertinSeletor(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: FlatButton(
                             onPressed: (){
-                                j
+                                showModelBottomSheetPicker(context);
                             },
                             color: Colors.white60,
                             child: Container(
@@ -304,19 +304,7 @@ class _PurchaseMainState extends State<PurchaseMain> {
     );
   }
 
-  showModelBottomSheetPicker(context){
-    showModelBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true ,
-        builder: (BuildContext context)
-        {
-          return Container(
-            height: 400.0,
-            child: cupertinSeletor(),
-          );
-        });
-  }
+  
 }
 
 class UserFriendly extends StatelessWidget {
@@ -394,4 +382,19 @@ class ProceedButtonTo extends StatelessWidget {
       ),
     );
   }
+}
+
+void showModelBottomSheetPicker(context){
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true ,
+      builder: (BuildContext context)
+      {
+        return Container(
+          color: Colors.white,
+          height: 300.0,
+          //child: //cupertinSeletor(),
+        );
+      });
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/Theme/articlesection.dart';
-import 'Theme/navigatorredbox.dart';
-import 'Theme/navigatorsection.dart';
-import 'components/addBasketButton.dart';
-import 'components/backgroundAdjustment.dart';
+import '../Theme/navigatorredbox.dart';
+import '../Theme/navigatorsection.dart';
+import '../components/addBasketButton.dart';
+import '../components/backgroundAdjustment.dart';
 
 
 List<String> _productImage = [

@@ -1,14 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/autentication/landingscreen.dart';
-import 'package:pinsaderoma/Catagore.dart';
-import 'package:pinsaderoma/finalproduct.dart';
-import 'package:pinsaderoma/mybag.dart';
-import 'package:pinsaderoma/products.dart';
-import 'package:pinsaderoma/navigator/about.dart';
-import 'package:pinsaderoma/navigator/contact.dart';
-import 'package:pinsaderoma/navigator/settings.dart';
-import 'package:pinsaderoma/proceed.dart';
+import 'package:pinsaderoma/admin/adminMain_screen.dart';
+import 'package:pinsaderoma/navigator/about_screen.dart';
+import '../autentication/landingscreen.dart';
 
 
 void main() {
@@ -64,15 +58,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      //home: FinalProductMain(),
       //home: LandingPage(),
-      //home: CatagoreMain(),
-      //home: ProductMain(),
-      //home: NavigateAbout(),
-      //home: NavigateContact(),
-      //home: ProfileSettings(),
-      //home: MyBagMain(),
-      home: PurchaseMain(),
+      //home: PurchaseMain(),
+      home: AdminMain(),
+      routes: {
+        AboutScreen.id: (context) => AboutScreen();
+
+      },
     );
   }
 }

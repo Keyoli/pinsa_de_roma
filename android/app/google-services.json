@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "83751624804",
+    "firebase_url": "https://pinsa-de-roma.firebaseio.com",
+    "project_id": "pinsa-de-roma",
+    "storage_bucket": "pinsa-de-roma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83751624804:android:bad680ffd894669992bf71",
+        "android_client_info": {
+          "package_name": "com.keyoli.pinsaderoma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83751624804-f07n3mpsch5elg8lnugbakruvonim9ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsyu90iAHfQ2b8Vn9utziGNLNAEsE9xJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83751624804-f07n3mpsch5elg8lnugbakruvonim9ug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

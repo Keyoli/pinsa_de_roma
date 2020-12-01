@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 import 'package:pinsaderoma/Theme/footersection.dart';
 import 'package:pinsaderoma/autentication/landingscreen.dart';
-import 'package:pinsaderoma/mybag.dart';
-import 'package:pinsaderoma/products.dart';
-
-import 'navigator/about.dart';
-import 'navigator/contact.dart';
-import 'navigator/settings.dart';
+import 'package:pinsaderoma/screens/products.dart';
+import 'navigation_screens/about_screen.dart';
+import 'navigation_screens/contact_screen.dart';
+import 'bag_screen.dart';
+import 'navigation_screens/settings_screen.dart';
 
 
 String status = 'Log in';
@@ -164,7 +163,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
                       onPressed: (){
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => NavigateAbout(),
+                          builder: (context) => AboutScreen(),
                         ));
                       },
                       child: _textStyling('About'),
@@ -173,7 +172,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
                       onPressed: (){
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => NavigateContact(),
+                          builder: (context) => ContactScreen(),
                         ));
                       },
                       child: _textStyling('Contact'),
@@ -188,7 +187,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
                       onPressed: (){
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => ProfileSettings(),
+                          builder: (context) => UserSettingsScreen(),
                         ));
                       },
                       child: _textStyling('Settings'),
@@ -314,7 +313,7 @@ class BannerWidgetArea extends StatelessWidget {
     List<Widget> banners = [];
 
     for(int i = 0; i < bannerItem.length; i++){
-      var bannerView = FoodItem(title: bannerItem[i], shortDesc: "test", imageUrl: bannerImage[i],);
+      var bannerView = foodItems(title: bannerItem[i], shortDesc: "test", imageUrl: bannerImage[i],);
       banners.add(bannerView);
     }
 
@@ -382,13 +381,13 @@ class BannerWidgetArea extends StatelessWidget {
   }
 }
 
-class FoodItem extends StatelessWidget {
+class foodItems extends StatelessWidget {
 
   String title;
   String shortDesc;
   String imageUrl;
 
-  FoodItem({this.title, this.shortDesc, this.imageUrl});
+  foodItems({this.title, this.shortDesc, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {

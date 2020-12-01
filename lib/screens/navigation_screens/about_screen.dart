@@ -7,7 +7,10 @@ import 'package:pinsaderoma/Theme/articlesection.dart';
 
 String _aboutdetail = 'Lorem Ipsum Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumyaliquyam erat sed diam voluptua. At vero eos etaccusam et justo duo dolores et ea rebum. Stetclita kasd gubergren no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumy eirmod tempor invidunt ';
 
-class NavigateAbout extends StatelessWidget {
+class AboutScreen extends StatelessWidget {
+
+  static const id = '/about_screen';
+
   @override
   Widget build(BuildContext context) {
 

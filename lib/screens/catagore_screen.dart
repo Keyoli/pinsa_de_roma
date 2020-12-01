@@ -1,14 +1,18 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/Theme/footersection.dart';
-import 'package:pinsaderoma/autentication/landingscreen.dart';
+import 'package:pinsaderoma/components/constant.dart';
 import 'package:pinsaderoma/screens/products.dart';
+
+import 'autentication/landing_screen.dart';
 import 'navigation_screens/about_screen.dart';
+import 'navigation_screens/settings_screen.dart';
 import 'navigation_screens/contact_screen.dart';
 import 'bag_screen.dart';
-import 'navigation_screens/settings_screen.dart';
+
 
 
 String status = 'Log in';
@@ -35,29 +39,48 @@ ListTile _textStyling(String text){
 }
 
 
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
-class CatagoreMain extends StatefulWidget {
+class CatagoreScreen extends StatefulWidget {
+  static const String id = 'catagore_screen';
 
   @override
-  _CatagoreMainState createState() => _CatagoreMainState();
+  _CatagoreScreenState createState() => _CatagoreScreenState();
 
 }
 
 
-class _CatagoreMainState extends State<CatagoreMain> {
+class _CatagoreScreenState extends State<CatagoreScreen> {
 
-  String _user = 'MosQuzz';
+  final _auth = FirebaseAuth.instance;
+  String _user;
 
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  }
+
+  void getCurrentUser() async{
+    try{
+      final user = _auth.currentUser;
+      if (user != null) {
+        var loggedInUser = user;
+        print(loggedInUser.email);
+        _user = loggedInUser.email;
+      }
+    } catch(e) {
+      print('Error was thrown as MosQuzz! defends');
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-
     Future<List<Widget>> createList() async {
       List<Widget> items = new List<Widget>();
       String dataString = await DefaultAssetBundle.of(context).loadString("assets/data.json");
@@ -87,7 +110,6 @@ class _CatagoreMainState extends State<CatagoreMain> {
       return items;
     }
 
-
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -112,7 +134,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
               margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
               child: FlatButton(
                   onPressed:(){
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) => CatagoreMain()));
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => CatagoreScreen()));
                   },
                   child: Image.asset('images/logo.png', height: 60, width: 120,))
           ),
@@ -123,7 +145,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
               margin: EdgeInsets.only(right: 15.0, top: 5.0),
               child: IconButton(
                 onPressed: (){
-                  Navigator.push(context, new MaterialPageRoute(builder: (context) => MyBagMain()));
+                  Navigator.push(context, new MaterialPageRoute(builder: (context) => BagScreen()));
                 },
                 icon: Icon(Icons.shopping_basket, size: 40, color: Colors.white),
               ),
@@ -154,7 +176,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
                       onPressed: (){
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => CatagoreMain(),
+                          builder: (context) => CatagoreScreen(),
                         ));
                       },
                       child: _textStyling('Home'),
@@ -213,6 +235,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Text('Welcome $_user', style: kProductTitleTextStyle,),
                   BannerWidgetArea(),
                   FooterArea(),
                 ],
@@ -226,7 +249,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
 
   void autenticationStatus(){
     if(status == 'Log in'){
-      Navigator.push(context, new MaterialPageRoute(builder: (context) => LandingPage()));
+      Navigator.pushNamed(context, LandingPage.id);
       status = 'Log out';
     }
     else{
@@ -240,7 +263,7 @@ class _CatagoreMainState extends State<CatagoreMain> {
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
@@ -309,7 +332,9 @@ class BannerWidgetArea extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
 
-    PageController controller = PageController(viewportFraction: 0.8, initialPage: 1);
+    PageController controller = PageController(
+        viewportFraction: 0.8,
+        initialPage: 1);
     List<Widget> banners = [];
 
     for(int i = 0; i < bannerItem.length; i++){
@@ -416,7 +441,7 @@ class foodItems extends StatelessWidget {
             ),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductMain()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
               },
               child: Container(
                 decoration: BoxDecoration(

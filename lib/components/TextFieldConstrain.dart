@@ -80,27 +80,13 @@ class TextFieldArea extends StatelessWidget {
   }
 }
 
-class cupertinSeletor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: CupertinoPicker(
-        onSelectedItemChanged: (int i){
-          print(i);
-        },
-        itemExtent: 40.0,
-        children: <Widget>[
-          Text('Test 1', style: TextStyle(color: Colors.black54, fontSize: 18.0)),
-          Text('Test 2', style: TextStyle(color: Colors.black54, fontSize: 18.0)),
-          Text('Test 2', style: TextStyle(color: Colors.black54, fontSize: 18.0)),
-        ],
-      ),
-    );
-  }
-}
-
 
 
 Widget textFieldTitle(String title){
-  return Text('$title', style: TextStyle(fontFamily: 'Calibri', color: Colors.grey[500], fontSize: 20.0,));
+  return Text(title,
+      style: TextStyle(
+        fontFamily: 'Calibri',
+        color: Colors.grey[500],
+        fontSize: 22.0,
+      ));
 }

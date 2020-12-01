@@ -1,11 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/admin/adminMain_screen.dart';
-import 'package:pinsaderoma/navigator/about_screen.dart';
-import '../autentication/landingscreen.dart';
+import 'package:pinsaderoma/screens/bag_screen.dart';
+import 'package:pinsaderoma/screens/catagore_screen.dart';
+import 'package:pinsaderoma/screens/navigation_screens/about_screen.dart';
+import 'package:pinsaderoma/screens/navigation_screens/settings_screen.dart';
+import 'package:pinsaderoma/screens/order_screen.dart';
+import 'package:pinsaderoma/screens/products.dart';
+import 'package:pinsaderoma/screens/singleProduct_screen.dart';
+import 'screens/autentication/landing_screen.dart';
+import 'screens/navigation_screens/contact_screen.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -21,13 +30,6 @@ class MyApp extends StatelessWidget {
         //Divider Color 2
         accentColor: Colors.red.shade600,
         textTheme: TextTheme(
-          headline1: TextStyle(
-            fontFamily: 'Sans-serif',
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(255, 40, 40, 50),
-            fontSize: 28.0,
-          ),
           headline2: TextStyle(
               fontFamily: 'Segoe',
               color: Colors.white,
@@ -60,9 +62,23 @@ class MyApp extends StatelessWidget {
       ),
       //home: LandingPage(),
       //home: PurchaseMain(),
-      home: AdminMain(),
+      initialRoute: LandingPage.id,
       routes: {
-        AboutScreen.id: (context) => AboutScreen();
+        LandingPage.id: (context) => LandingPage(),
+
+        AboutScreen.id: (context) => AboutScreen(),
+        ContactScreen.id: (context) => ContactScreen(),
+        UserSettingsScreen.id : (context) => UserSettingsScreen(),
+
+        CatagoreScreen.id: (context) => CatagoreScreen(),
+        ProductsScreen.id: (context) => ProductsScreen(),
+        SingleProductScreen.id: (context) => SingleProductScreen(),
+
+        BagScreen.id: (context) => BagScreen(),
+        OrderScreen.id: (context) => OrderScreen(),
+
+
+
 
       },
     );

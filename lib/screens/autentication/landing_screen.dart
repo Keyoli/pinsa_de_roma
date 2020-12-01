@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/Theme/slideupwidget.dart';
-import 'package:pinsaderoma/Theme/SlideUpSignUpWidget.dart';
+import 'package:pinsaderoma/Theme/login_widget.dart';
+import 'package:pinsaderoma/Theme/registration_widget.dart';
 
 // *TODO: API gargah, frontEnd token hadgaldag bolgoh
 class LandingPage extends StatelessWidget {
@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget {
         builder: (BuildContext context)
         {
 
-      return SlideUpWidget();
+      return LoginWidget();
         });
   }
 
@@ -27,7 +27,7 @@ class LandingPage extends StatelessWidget {
         isScrollControlled: true ,
         builder: (BuildContext context)
         {
-          return SlideUpSignUp();
+          return RegistrationWidget();
         });
   }
 

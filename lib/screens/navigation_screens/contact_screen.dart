@@ -12,7 +12,9 @@ var socialMediaImages = [
 
 String _contactdetail = 'Lorem Ipsum Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumyaliquyam erat sed diam voluptua. At vero eos etaccusam et justo duo dolores et ea rebum. Stetclita kasd gubergren no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumy eirmod tempor invidunt ';
 
-class NavigateContact extends StatelessWidget {
+class ContactScreen extends StatelessWidget {
+  static const String id = '/contact_screen';
+
   @override
   Widget build(BuildContext context) {
 

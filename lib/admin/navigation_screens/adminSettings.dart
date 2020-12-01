@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinsaderoma/Theme/footersection.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
-import 'package:pinsaderoma/components/buttonRed.dart';
+import 'package:pinsaderoma/components/userRedButton.dart';
 
 
-class AdminSettings extends StatelessWidget {
+class AdminSettingsScreen extends StatelessWidget {
+  static const String id = '/admSettings_screen';
   @override
   Widget build(BuildContext context) {
 
@@ -97,7 +98,7 @@ class AdminSettings extends StatelessWidget {
                   SizedBox(
                     height: size.height*0.9/35,
                   ),
-                  ButtonRedMain(text: 'Save account', width: size.width*7/16),
+                  UserRedButton(text: 'Save account', width: size.width*7/16),
                   SizedBox(
                     height: size.height*0.2/10,
                   ),

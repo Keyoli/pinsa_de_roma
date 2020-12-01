@@ -29,37 +29,14 @@ List<double> _productPriceList = [
   99999,
 ];
 
-class CurvePainter extends CustomPainter {
+
+class SingleProductScreen extends StatefulWidget {
+  static const String id = '/single_product_screen';
   @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint();
-    paint.color = Colors.green[800];
-    paint.style = PaintingStyle.fill;
-
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.9167);
-    path.quadraticBezierTo(size.width * 0.25, size.height * 0.875,
-        size.width * 0.5, size.height * 0.9167);
-    path.quadraticBezierTo(size.width * 0.75, size.height * 0.9584,
-        size.width * 1.0, size.height * 0.9167);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-class FinalProductMain extends StatefulWidget {
-  @override
-  _FinalProductMainState createState() => _FinalProductMainState();
+  _SingleProductScreenState createState() => _SingleProductScreenState();
 }
 
-class _FinalProductMainState extends State<FinalProductMain> {
+class _SingleProductScreenState extends State<SingleProductScreen> {
 
   String _productSize = 'Small';
   var _height = 100.0;
@@ -243,7 +220,7 @@ class _FinalProductMainState extends State<FinalProductMain> {
                   ),
                   Container(
                       margin: EdgeInsets.only(right: 110.0, left: 95.0),
-                      child: ProductAddToBasketButton(price: _productPriceList[3], icon: Icons.store, size: 35.0, fontSize: 28.0,)),
+                      child: AddToBasketButton(price: _productPriceList[3].toInt(),)),
                   SizedBox(
                     height: size.height*0.05,
                   ),
@@ -366,5 +343,29 @@ class _NumberOfProductButtonState extends State<NumberOfProductButton> {
 }
 
 
+class CurvePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = Colors.green[800];
+    paint.style = PaintingStyle.fill;
 
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.9167);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.875,
+        size.width * 0.5, size.height * 0.9167);
+    path.quadraticBezierTo(size.width * 0.75, size.height * 0.9584,
+        size.width * 1.0, size.height * 0.9167);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
 

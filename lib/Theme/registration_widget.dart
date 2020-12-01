@@ -1,13 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
-import 'package:pinsaderoma/components/buttonRed.dart';
+import 'package:pinsaderoma/components/userRedButton.dart';
+import 'package:pinsaderoma/components/constant.dart';
+import 'package:pinsaderoma/screens/catagore_screen.dart';
 
-class SlideUpSignUp extends StatefulWidget {
+class RegistrationWidget extends StatefulWidget {
   @override
-  _SlideUpSignUpState createState() => _SlideUpSignUpState();
+  _RegistrationWidgetState createState() => _RegistrationWidgetState();
 }
 
-class _SlideUpSignUpState extends State<SlideUpSignUp> {
+class _RegistrationWidgetState extends State<RegistrationWidget> {
+
+  String password;
+  String passwordCheck;
+  String pass;
+  String email;
+  String phoneNumber;
+  final _auth = FirebaseAuth.instance;
+
+  Future<void> alertSignUpMethodFailed(String expectation){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('ALERT'),
+            content: Text(expectation),
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -19,108 +43,135 @@ class _SlideUpSignUpState extends State<SlideUpSignUp> {
       height: size.height*15/16,
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Row(
 
-                  children: <Widget>[
-                    Container(
-                      height: 4,
-                      width: 200.0,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                        onPressed: (){},
-                        color: Colors.grey[500],
-                        splashColor: Colors.white,
-                        hoverColor: Theme.of(context).accentColor,
-                        child: Text(''),
-                      ),
-                    ),
-                    Container(
-                      height: 4,
-                      width: 100.0,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                        onPressed: (){},
-                        color: Theme.of(context).accentColor,
-                        splashColor: Theme.of(context).accentColor,
-                        hoverColor: Theme.of(context).accentColor,
-                        child: Text(''),
-                      ),
-                    ),
-                  ],
-                ),
-
-              ],
+          SizedBox(height: 20.0),
+          Text('User Registration',
+              style: kAutenticationHeaderTextStyle
+          ),
+          Container(
+            width: 300.0,
+            child:Divider(
+              thickness: 2.0,
+              color: Theme.of(context).accentColor,
             ),
           ),
-          SizedBox(height: size.height*0.09/3),
-          Text('User Registration', style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Segoe',
-            fontSize: 28.0,
-            fontStyle: FontStyle.normal,
-          )),
-          Divider(
-            height: 20.0,
-            thickness: 2.5,
-            color: Theme.of(context).accentColor,
-            endIndent: 110,
-            indent: 110,
-          ),
-          SizedBox(height: size.height*0.09/4),
+          SizedBox(height: 40.0),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              textFieldTitle('User Name'),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: TextFieldConstrain(child: TextFieldArea(prokey: false)),
+              Center(
+                  child: textFieldTitle('User Name'),
               ),
-              SizedBox(height: size.height*0.09/5),
-              textFieldTitle('Email'),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: TextFieldConstrain(child: TextFieldArea(prokey: false)),
+              Container(
+                padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                child: TextField(
+                  onChanged: (value){
+                    setState(() {
+                      email = value;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Email',
+                      prefixIcon: Icon(
+                        Icons.person,
+                        size: 25.0,
+                      )),
+                ),
               ),
-              SizedBox(height: size.height*0.09/5),
-              textFieldTitle('Password 1'),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: TextFieldConstrain(child: TextFieldArea(prokey: true)),
+
+              Center(
+                child: textFieldTitle('Password'),
               ),
-              SizedBox(height: size.height*0.09/5),
-              textFieldTitle('Password 2'),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: TextFieldConstrain(child: TextFieldArea(prokey: true)),
+              Container(
+                padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                child: TextField(
+                  onChanged: (value){
+                    setState(() {
+                      password = value;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        size: 25.0,
+                      )),
+                ),
               ),
-              SizedBox(height: size.height*0.09/5),
-              textFieldTitle('Phone Number'),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: TextFieldConstrain(child: TextFieldArea(prokey: false)),
+
+              Center(
+                child: textFieldTitle('Password again'),
               ),
+              Container(
+                padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                child: TextField(
+                  onChanged: (value){
+                    setState(() {
+                      passwordCheck = value;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        size: 25.0,
+                      )),
+                ),
+              ),
+
+              Center(
+                  child: textFieldTitle('Phone number')
+              ),
+              Container(
+                padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                child: TextField(
+                  onChanged: (value){
+                    setState(() {
+                      phoneNumber = value;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Phone',
+                      prefixIcon: Icon(
+                        Icons.phone,
+                        size: 25.0,
+                      )),
+                ),
+              ),
+
+
             ],
           ),
-          //SizedBox(height: size.height*0.09/2),
           SizedBox(height: size.height*0.09/2),
-          ButtonRedMain(text: 'Sign up', width: size.width*5/16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2.0),
-            child: FlatButton(
-              onPressed: (){
-                print("TODO navigator go back");
+
+          UserRedButton(
+              text: 'Sign up',
+              width: 150.0,
+              onPress: () async {
+                if(password == passwordCheck){
+                  pass = password;
+                }
+                try{
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: pass);
+                    if (newUser != null){
+                      Navigator.pushNamed(context, CatagoreScreen.id);
+                    }
+                  else {
+                    setState(() {});
+                    alertSignUpMethodFailed('Passwords are not fiting..');
+                  }
+                }
+                catch(e) {
+                  setState(() {});
+                  alertSignUpMethodFailed(e.toString());
+                }
               },
-              child: Text('Already have Account?', style: TextStyle(
-                fontFamily: 'Segoe',
-                color: Colors.white,
-                fontSize: 16.0,
-              )),
-            ),
           ),
         ],
       ),

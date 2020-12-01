@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pinsaderoma/Theme/navigatorredbox.dart';
-
 
 String _user = 'MosQuzz';
 
@@ -41,159 +39,148 @@ List<String> _productImage = [
   'images/product/salad/product4.jpg',
 ];
 
-class MyBagMain extends StatefulWidget {
-  @override
-  _MyBagMainState createState() => _MyBagMainState();
+class BagScreen extends StatefulWidget {
+  static const String id = 'bag_screen';
+
+  BagScreen({
+    this.productName,
+    this.productSize,
+    this.productFinalPrice,
+    this.productDetail
+  });
+
+    final String productName;
+    final String productSize;
+    final String productDetail;
+    final int productFinalPrice;
+
+@override
+  _BagScreenState createState() => _BagScreenState();
 }
 
-class _MyBagMainState extends State<MyBagMain> {
+class _BagScreenState extends State<BagScreen> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO:4 Firebase list of Firebase Docs which contains user.id and product.id
+  }
 
   @override
   Widget build(BuildContext context) {
 
     Size size = MediaQuery.of(context).size;
+    bool _hasProduct;
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(24, 51, 98, 100),
-      body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(26.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('My Bag',
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        IconButton(
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(Icons.arrow_back, color: Colors.white, size: 45.0,),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: size.height*0.03),
-
-                  Container(
-                    margin: EdgeInsets.only(left: size.width*14/16, top: 5.0, bottom: 2.0, right: 5.0),
-                    child: FloatingActionButton(
-                      heroTag: "btn1",
-                      onPressed: () {
-                        print('Gesture Detecter go back');
-                      },
-                      child: Icon(Icons.cancel, size: 45.0, color: Theme.of(context).accentColor),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 2.0, bottom: 5.0, right: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        BannerImageContainer(size: size),
-                        BannerProductDetail(productPrice: _productPriceList[0], productSize: _productSize, total: _total, productType: _productType[1]),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: size.height*0.03),
-                  const Divider(
-                    height: 2.0,
-                    endIndent: 40,
-                    indent: 30.0,
-                    color: Colors.black26,
-                    thickness: 2.8,
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.only(left: size.width*14/16, top: 5.0, bottom: 2.0, right: 5.0),
-                    child: FloatingActionButton(
-                      heroTag: "btn2",
-                      onPressed: () {
-                        print('Gesture Detecter go back');
-                      },
-                      child: Icon(Icons.cancel, size: 45.0, color: Theme.of(context).accentColor),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 2.0, bottom: 5.0, right: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        BannerImageContainer(size: size),
-                        BannerProductDetail(productPrice: _productPriceList[0], productSize: _productSize, total: _total, productType: _productType[1]),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: size.height*0.03),
-                  const Divider(
-                    height: 2.0,
-                    endIndent: 40,
-                    indent: 30.0,
-                    color: Colors.black26,
-                    thickness: 2.8,
-                  ),
-                  SizedBox(height: size.height*0.03),
-
-                  Container(
-                    margin: EdgeInsets.only(left: 15.0, bottom: 25.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text('Rate of ',
-                                style: TextStyle(
-                                  fontFamily: 'Segoe',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 32.0,
-                                  color: Colors.white,
-                                )),
-                            Text(_productType[1],
-                                style: TextStyle(
-                                  fontFamily: 'Segoe',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 32.0,
-                                  color: Theme.of(context).primaryColor,
-                                )),
-                            UserFriendly(user: _user, word: 'Thank you'),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.star, size: 25, color: Colors.yellow[800]),
-                              Icon(Icons.star, size: 25, color: Colors.yellow[800]),
-                              Icon(Icons.star, size: 25, color: Colors.yellow[800]),
-                              Icon(Icons.star, size: 25, color: Colors.yellow[800]),
-                              Icon(Icons.star, size: 25, color: Colors.yellow[800]),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RaisedButton(
-                      color: Colors.transparent,
-                      onPressed: (){
-                        print('proceed to next praise');
-                      },
-                      child: ProceedButtonRed(icon: Icons.shopping_cart, title: 'Proceed', productPrice: _productPriceList[0] + _productPriceList[1],),
-                  ),
-                ],
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(24, 51, 98, 100),
+        leading: Text('My Bag',
+          style: Theme.of(context).textTheme.headline3,
         ),
+        actions: [
+          IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white, size: 45.0,),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: 12,
+          itemBuilder: (_, index){
+
+            return Column(
+              children: [
+                  Container(
+                     margin: EdgeInsets.only(left: 300.0),
+                        child: Icon(Icons.cancel,
+                            size: 45.0,
+                            color: Theme.of(context).accentColor
+                        ),
+                       ),
+                  Container(
+                    margin: EdgeInsets.only(top: 2.0, bottom: 5.0, right: 5.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                            BannerImageContainer(),
+                            BannerProductDetail(
+                                productPrice: widget.productFinalPrice,
+                                productSize: widget.productSize,
+                                //*TODO make brain in calculation from finalProduct Screen, if product number increase
+                                // There will be calcalute * and return current price over here
+                                //Else just return current price, which means price of small, medium, large will send to there
+                                //as well
+                                total: 1,
+                                productType:
+                                'Pinsa'
+                                 ),
+                        ],
+                     ),
+                  ),
+                Container(
+                     width: size.width,
+                     margin: EdgeInsets.symmetric(vertical: 15.0),
+                     child: Divider(
+                      color: Colors.grey.shade900,
+                      thickness: 2.0,
+                      ),
+                   ),
+            ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ProductRateSlider extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 15.0, bottom: 25.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text('Rate of ',
+                  style: TextStyle(
+                    fontFamily: 'Segoe',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32.0,
+                    color: Colors.white,
+                  )),
+              Text(_productType[1],
+                  style: TextStyle(
+                    fontFamily: 'Segoe',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32.0,
+                    color: Theme.of(context).primaryColor,
+                  )),
+              UserFriendly(user: _user, word: 'Thank you'),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.star, size: 25, color: Colors.yellow[800]),
+                Icon(Icons.star, size: 25, color: Colors.yellow[800]),
+                Icon(Icons.star, size: 25, color: Colors.yellow[800]),
+                Icon(Icons.star, size: 25, color: Colors.yellow[800]),
+                Icon(Icons.star, size: 25, color: Colors.yellow[800]),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -204,12 +191,12 @@ class ProceedButtonRed extends StatelessWidget {
   @override
 
   const ProceedButtonRed({
-    Key key, this.productPrice = 9900,
+    this.productPrice,
     this.icon,
-    this.title = 'Total',
-  }) : super(key: key);
+    this.title,
+  });
 
-  final double productPrice;
+  final int productPrice;
   final IconData icon;
   final String title;
 
@@ -279,11 +266,13 @@ class UserFriendly extends StatelessWidget {
 
 class BannerProductDetail extends StatelessWidget {
   const BannerProductDetail({
-    Key key,
-    this.productPrice, this.total, this.productSize, this.productType,
-  }) : super(key: key);
+    this.productPrice,
+    this.productSize,
+    this.productType,
+    this.total,
+  });
 
-  final double productPrice;
+  final int productPrice;
   final int total;
   final String productSize;
   final String productType;
@@ -292,7 +281,6 @@ class BannerProductDetail extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Size size = MediaQuery.of(context).size;
-
     return Column(
       children: <Widget>[
         Container(
@@ -393,18 +381,18 @@ class BannerProductDetail extends StatelessWidget {
 }
 
 class BannerImageContainer extends StatelessWidget {
-  const BannerImageContainer({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
 
-  final Size size;
+  BannerImageContainer({
+    this.image,
+  });
+
+  final Image image;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height*0.28,
-      width: size.height*0.28,
+      height: 180.0,
+      width: 180.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(45.0),
         boxShadow: [

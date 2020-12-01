@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/mybag.dart';
+import 'package:pinsaderoma/screens/bag_screen.dart';
 
-class ProductAddToBasketButton extends StatelessWidget {
 
-  final double price;
-  final IconData icon;
-  final double size;
-  final double fontSize;
 
-  const ProductAddToBasketButton({
-    Key key, this.price, this.icon = Icons.shopping_cart, this.size = 30.0, this.fontSize = 22.0,
-  }) : super(key: key);
+class AddToBasketButton extends StatelessWidget {
+
+  final int price;
+  final Function onPress;
+
+  AddToBasketButton({
+    @required
+    this.price,
+    this.onPress
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +21,24 @@ class ProductAddToBasketButton extends StatelessWidget {
       child: Center(
         child: RaisedButton(
           color: Theme.of(context).primaryColor,
-          onPressed: (){
-            Navigator.push(context, new MaterialPageRoute(builder: (context) => MyBagMain()));
-          },
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          onPressed: onPress,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Icon(icon, color: Colors.white, size: size,),
-              SizedBox(width: 10.0,),
+              Icon(Icons.shopping_cart,
+                color: Colors.white,
+                size: 25.0,
+              ),
               Text('$price₮',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: fontSize,
-                  fontFamily: 'Calibri'
-              )),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.0,
+                      fontFamily: 'Calibri'
+                  )),
             ],
           ),
         ),

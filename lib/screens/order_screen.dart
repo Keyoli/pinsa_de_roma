@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
+import 'package:pinsaderoma/components/constant.dart';
 
 
-class PurchaseMain extends StatefulWidget {
+class OrderScreen extends StatefulWidget {
+  static const String id = '/order_screen';
 
 
   @override
-  _PurchaseMainState createState() => _PurchaseMainState();
+  _OrderScreenState createState() => _OrderScreenState();
 }
 
-class _PurchaseMainState extends State<PurchaseMain> {
+class _OrderScreenState extends State<OrderScreen> {
 
 
   bool _check;
@@ -158,7 +160,23 @@ class _PurchaseMainState extends State<PurchaseMain> {
                         ),),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TextFieldConstrain(color: Colors.grey[100], child: TextFieldArea(hintText: 'Reqiured,', prokey: false)),
+                          child: Container(
+                            padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                            child: TextField(
+                              onChanged: (value){
+                                setState(() {
+
+                                });
+                              },
+                              textAlign: TextAlign.center,
+                              decoration: kTextFieldDecoration.copyWith(
+                                  hintText: 'Password',
+                                  prefixIcon: Icon(
+                                    Icons.lock,
+                                    size: 25.0,
+                                  )),
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/adminSettings/adminSettings.dart';
-import 'package:pinsaderoma/autentication/landingscreen.dart';
+import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/screens/autentication/landing_screen.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
+
+import 'navigation_screens/adminSettings.dart';
 
 
 var _user = 'MosQuzz';
@@ -46,12 +47,13 @@ List<String> _productName = [
 ];
 
 
-class AdminMain extends StatefulWidget {
+class AdminScreen extends StatefulWidget {
+
   @override
-  _AdminMainState createState() => _AdminMainState();
+  _AdminScreenState createState() => _AdminScreenState();
 }
 
-class _AdminMainState extends State<AdminMain> {
+class _AdminScreenState extends State<AdminScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,7 @@ class _AdminMainState extends State<AdminMain> {
                   FlatButton(
                     onPressed: (){
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AdminSettings()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AdminSettingsScreen()));
                     },
                     child: _textStyling('Settings'),
                   ),

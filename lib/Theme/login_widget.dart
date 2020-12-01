@@ -1,21 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/components/buttonRed.dart';
+import 'package:pinsaderoma/components/userRedButton.dart';
 import 'package:pinsaderoma/components/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SlideUpWidget extends StatefulWidget {
+class LoginWidget extends StatefulWidget {
   @override
-  _SlideUpWidgetState createState() => _SlideUpWidgetState();
+  _LoginWidgetState createState() => _LoginWidgetState();
 }
 
-class _SlideUpWidgetState extends State<SlideUpWidget> {
+class _LoginWidgetState extends State<LoginWidget> {
 
   final _auth = FirebaseAuth.instance;
   String email;
   String password;
   String expectation;
-
 
   Future<void> alertSignInMethodFailed(String expectation){
     return showDialog(
@@ -91,7 +90,7 @@ class _SlideUpWidgetState extends State<SlideUpWidget> {
                   )),
             ),
           ),
-          ButtonRedMain(
+          UserRedButton(
               text: 'Sign In',
               width: 100.0,
               onPress: (){
@@ -110,8 +109,7 @@ class _SlideUpWidgetState extends State<SlideUpWidget> {
                   }
                 } catch(e) {
                   setState(() {});
-                  expectation = e;
-                  alertSignInMethodFailed(expectation);
+                  alertSignInMethodFailed(e.toString());
                 }
               },
           ),

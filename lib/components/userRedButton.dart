@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pinsaderoma/components/constant.dart';
 
-class ButtonRedMain extends StatelessWidget {
+class UserRedButton extends StatelessWidget {
   final bool isAdmin;
   final String text;
   final double width;
   final Function onPress;
 
-  ButtonRedMain({
+  UserRedButton({
     this.isAdmin = false,
     @required this.onPress,
     @required this.text,
@@ -34,7 +35,7 @@ class ButtonRedMain extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 12.0),
           onPressed: onPress,
           color: Colors.redAccent,
-          child: Text(text, style: TextStyle( color: Colors.white, fontSize: 20.0, fontFamily: 'Calibri',)),
+          child: Text(text,  style: kUserRedButtonTextStyle),
           splashColor: Theme.of(context).accentColor,
           focusColor: Theme.of(context).accentColor,
         ),

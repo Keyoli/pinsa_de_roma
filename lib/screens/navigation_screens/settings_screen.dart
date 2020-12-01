@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinsaderoma/Theme/footersection.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
-import 'package:pinsaderoma/components/buttonRed.dart';
+import 'package:pinsaderoma/components/userRedButton.dart';
 
 
-class ProfileSettings extends StatelessWidget {
+class UserSettingsScreen extends StatelessWidget {
+  static const String id = '/settings_screen';
+
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -154,7 +155,7 @@ class ProfileSettings extends StatelessWidget {
                   SizedBox(
                     height: size.height*0.9/35,
                   ),
-                  ButtonRedMain(text: 'Save account', width: size.width*7/16),
+                  UserRedButton(text: 'Save account', width: size.width*7/16),
                   SizedBox(
                     height: size.height*0.8/10,
                   ),

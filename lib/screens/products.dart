@@ -1,566 +1,437 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pinsaderoma/Theme/navigatorredbox.dart';
-import 'package:pinsaderoma/Theme/navigatorsection.dart';
-import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/navigator/singleProduct_screen.dart';
-import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/navigator/bag_screen.dart';
-import 'package:pinsaderoma/navigator/about_screen.dart';
-import 'package:pinsaderoma/navigator/contact_screen.dart';
-import 'package:pinsaderoma/navigator/settings_screen.dart';
+import 'package:pinsaderoma/components/addBasketButton.dart';
+import 'package:pinsaderoma/components/constant.dart';
+import 'package:pinsaderoma/screens/singleProduct_screen.dart';
 
-import 'navigator/main_screen.dart';
-import 'autentication/landingscreen.dart';
-import 'components/addBasketButton.dart';
-
-String _user = 'MosQuzz';
+import 'bag_screen.dart';
+import 'catagore_screen.dart';
 
 
-var _bannerItem = [ 'Pinsa' , 'Salad' , 'Chicken' , 'Drink' ];
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+final _firestore = FirebaseFirestore.instance;
 
-List<String> _productImage = [
-  'images/product/salad/product1.jpg',
-  'images/product/salad/product2.jpg',
-  'images/product/salad/product3.jpg',
-  'images/product/salad/product4.jpg',
-];
-
-List<String> _productName = [
-  'Sizier salad',
-  'Cheese salad',
-  'German salad',
-  'Chicken salad',
-];
-
-ListTile _textStyling(String text){
-  return ListTile(
-    title: Text(text,
-      style: TextStyle(
-      color: Colors.white,
-      fontSize: 28.0,
-      fontFamily: 'Calibri'
-      ),
-    ),
-  );
+enum Slider {
+  salad,
+  chicken,
+  pinsa,
+  drink,
 }
 
-Container productBackground(double height) {
-  return Container(
-    margin: EdgeInsets.all(10.0),
-    height: height,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black45,
-          offset: Offset(4.0, 5.0),
-          blurRadius: 5.0,
-          spreadRadius: 3.0,
-        ),
-      ],
-    ),
-  );
-}
-
-
-class ProductMain extends StatefulWidget {
+class ProductsScreen extends StatefulWidget {
+  static const String id = '/product_screen';
   @override
-  _ProductMainState createState() => _ProductMainState();
-
+  _ProductsScreenState createState() => _ProductsScreenState();
 }
 
-class _ProductMainState extends State<ProductMain> {
+class _ProductsScreenState extends State<ProductsScreen> {
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  initState() {
+    super.initState();
+  }
 
+  Slider selectedSlider;
   @override
   Widget build(BuildContext context) {
-
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: Container(
-            margin: const EdgeInsets.only(bottom: 20.0, top: 5.0, right: 10.0),
-            child: IconButton(
-                icon: Icon(Icons.menu, size: 40.0, color: Colors.white),
-                onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-                },
-            ),
-          ),
-          elevation: 12.0,
-          bottom: PreferredSize(
-              child: Padding(
-                padding: EdgeInsets.only(left: 8.0, right: 16.0, top: 0.0, bottom: 5.0),
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 12.0, top: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                          child: Text(_bannerItem[0] , style: Theme.of(context).textTheme.headline2)
-                      ),
-                      Text(_bannerItem[1] , style: Theme.of(context).textTheme.headline2),
-                      Text(_bannerItem[2] , style: Theme.of(context).textTheme.headline2),
-                      Text(_bannerItem[3] , style: Theme.of(context).textTheme.headline2),
-                    ],
-                  ),
-                ),
-              ),
-              preferredSize: Size.fromHeight(65.0)),
-          backgroundColor: Color.fromRGBO(24, 51, 98, 1),
-          title: Container(
-              margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child: FlatButton(
-                  onPressed:(){
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) => CatagoreMain()));
-                  },
-                  child: Image.asset('images/logo.png', height: 60, width: 120,))
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 15.0, top: 5.0),
-              child: IconButton(
-                onPressed: (){
-                  Navigator.push(context, new MaterialPageRoute(builder: (context) => MyBagMain()));
-                },
-                icon: Icon(Icons.shopping_basket, size: 40, color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-
-        drawer: Drawer(
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF102044),
+        elevation: 10.0,
+        leading: GestureDetector(
+          onTap: (){
+            _scaffoldKey.currentState.openDrawer();
+          },
           child: Container(
-            color: Colors.redAccent,
-            child: ListView(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: 230.0, top: 15.0),
-                      width: 60.0,
-                      child: IconButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.cancel, color: Colors.white, size: 45.0,),
+              margin: EdgeInsets.only(top: 10.0, left: 10.0),
+              child: Icon(Icons.menu, size: 40.0, color: Colors.white)
+          ),
+        ),
+        title: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, CatagoreScreen.id);
+            },
+            child: Container(
+                margin: EdgeInsets.only(top: 10.0),
+                child: Image.asset('images/logo.png', height: 50, width: 110,)
+            )
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, BagScreen.id);
+              },
+              child: Container(
+                  margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                  child: Icon(Icons.shopping_bag_outlined, size: 40.0, color: Colors.white)
+              )
+          ),
+        ],
+
+        bottom: PreferredSize(
+            child: Container(
+              margin: EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedSlider = Slider.pinsa;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300,),
+                      height: 30.0,
+                      width: 70.0,
+                      decoration: BoxDecoration(
+                        color: selectedSlider == Slider.pinsa
+                            ? kActiveColour
+                            : kInactiveColour,
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Center(
+                          child: Text('Pinsa' , style: kCatagoreHeadLineTextStyle)
                       ),
                     ),
-                    SizedBox(
-                      height: 60.0,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedSlider = Slider.chicken;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300,),
+                      height: 30.0,
+                      width: 80.0,
+                      decoration: BoxDecoration(
+                        color: selectedSlider == Slider.chicken
+                            ? kActiveColour
+                            : kInactiveColour,
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Center(
+                          child: Text('Chicken' , style: kCatagoreHeadLineTextStyle)
+                      ),
                     ),
-                    FlatButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => CatagoreMain(),
-                        ));
-                      },
-                      child: _textStyling('Home'),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedSlider = Slider.salad;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300,),
+                      height: 30.0,
+                      width: 70.0,
+                      decoration: BoxDecoration(
+                        color: selectedSlider == Slider.salad
+                            ? kActiveColour
+                            : kInactiveColour,
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Center(
+                          child: Text('Salad' , style: kCatagoreHeadLineTextStyle)
+                      ),
                     ),
-                    FlatButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => AboutScreen(),
-                        ));
-                      },
-                      child: _textStyling('About'),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedSlider = Slider.drink;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300,),
+                      height: 30.0,
+                      width: 70.0,
+                      decoration: BoxDecoration(
+                        color: selectedSlider == Slider.drink
+                            ? kActiveColour
+                            : kInactiveColour,
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Center(
+                          child: Text('Drink' , style: kCatagoreHeadLineTextStyle)
+                      ),
                     ),
-                    FlatButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => NavigateContact(),
-                        ));
-                      },
-                      child: _textStyling('Contact'),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        print('Gesture detecter');
-                      },
-                      child: _textStyling('Service'),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => ProfileSettings(),
-                        ));
-                      },
-                      child: _textStyling('Settings'),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        autenticationStatus();
-                      },
-                      child: _textStyling(status),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-        body: Container(
-          color: Color.fromRGBO(24, 51, 98, 1),
-          child: SafeArea(
-            child: ListView(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    //NavigationSection(),
-                    Container(
-                        child: UserFriendly(user: _user, word: 'Hello ')
-                    ),
-                    ProductArea(),
-                    CalculateNavigator(productPrice: 12000, icon: Icons.store_mall_directory),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+            preferredSize: Size.fromHeight(65.0)),
       ),
-    );
-  }
+      drawer: Drawer(),
 
-  void autenticationStatus(){
-    if(status == 'Log in'){
-      Navigator.push(context, new MaterialPageRoute(builder: (context) => LandingPage()));
-      status = 'Log out';
-    }
-    else{
-      _showMyDialog();
-      setState(() {
-        status = 'Log in';
-      });
-    }
-  }
+      body: SafeArea(
+        child: PageView(
+          children: [
+            StreamBuilder(
+              stream: _firestore.collection('pinsa').snapshots(),
+              builder: (_, snapshot) {
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.redAccent,
-          title: Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('You have logged out'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okey'),
-              onPressed: () {
-                Navigator.of(context).pop();
+                if(!snapshot.hasData){
+                  return Center(
+                    child: Text('Loading..',),
+                  );
+                }
+
+                final products = snapshot.data.docs;
+                List<ProductContainer> productContainers = [];
+                List<Row> resultProduct = [];
+                for(var product in products) {
+                  final productName = product.data()['name'];
+                  final productDetail = product.data()['detail'];
+                  final productSmallPrice = product.data()['smallPrice'];
+                  final productMediumPrice = product.data()['mediumPrice'];
+                  final productLargePrice = product.data()['largePrice'];
+
+
+                  print('is: ${product.documentID}');
+                  //TODO:3 send documentID to productContainer
+
+                  final productContainer = ProductContainer(
+                      productName: productName.toString(),
+                      productDetail: productDetail.toString(),
+                      productPriceSmall: productSmallPrice,
+                      productPriceMedium: productMediumPrice,
+                      productPriceLarge: productLargePrice,
+                  );
+
+                  productContainers.add(productContainer);
+                }
+                for(var i = 0; i < productContainers.length; i+=2){
+                  if(i+1 == productContainers.length){
+                    resultProduct.add(
+                        Row(children: [
+                            productContainers[i],],
+                        ));
+                  } else {
+                    resultProduct.add(
+                        Row(children: [
+                            productContainers[i],
+                            productContainers[i+1],],
+                        ));
+                  }
+                }
+                return ListView(
+                        children: resultProduct,
+                 );
               },
             ),
           ],
-        );
-      },
-    );
-  }
-}
-
-class ProductArea extends StatefulWidget {
-  @override
-  _ProductAreaState createState() => _ProductAreaState();
-}
-
-class _ProductAreaState extends State<ProductArea> {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Column(
-      children: <Widget>[
-        SizedBox(height: size.height*0.05),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  productBackground(size.height*0.6),
-                  Container(
-                    height: size.height*0.6,
-                    margin: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        FlatButton(
-                          padding: EdgeInsets.all(0.0),
-                          onPressed: () {
-                            Navigator.push(context, new MaterialPageRoute(builder: (context) => FinalProductMain()));
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-                            child: Image.asset(_productImage[0]),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                            child: Text(_productName[0], style: Theme.of(context).textTheme.headline1,)
-                        ),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 1.5,
-                          endIndent: 40,
-                          indent: 12,
-                          height: 10.0,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                          child: Text(productDetail),
-                        ),
-                        SizedBox(
-                          height: size.height*0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ProductSizeButton(text: 'S'),
-                            ProductSizeButton(text: 'N'),
-                            ProductSizeButton(text: 'L'),
-                          ],
-                        ),
-                        ProductAddToBasketButton(price: 19000),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  productBackground(size.height*0.6),
-                  Container(
-                    margin: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-                          child: Image.asset(_productImage[1]),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                            child: Text(_productName[1], style: Theme.of(context).textTheme.headline1,)
-                        ),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 1.5,
-                          endIndent: 40,
-                          indent: 12,
-                          height: 10.0,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                          child: Text(productDetail),
-                        ),
-                        SizedBox(
-                          height: size.height*0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ProductSizeButton(text: 'S'),
-                            ProductSizeButton(text: 'N'),
-                            ProductSizeButton(text: 'L'),
-                          ],
-                        ),
-                        ProductAddToBasketButton(price: 19000),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ],
         ),
-        SizedBox(height: size.height*0.05),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  productBackground(size.height*0.6),
-                  Container(
-                    margin: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-                          child: Image.asset(_productImage[2]),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                            child: Text(_productName[2], style: Theme.of(context).textTheme.headline1,)
-                        ),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 1.5,
-                          endIndent: 40,
-                          indent: 12,
-                          height: 10.0,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                          child: Text(productDetail),
-                        ),
-                        SizedBox(
-                          height: size.height*0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ProductSizeButton(text: 'S'),
-                            ProductSizeButton(text: 'N'),
-                            ProductSizeButton(text: 'L'),
-                          ],
-                        ),
-                        ProductAddToBasketButton(price: 21000),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  productBackground(size.height*0.6),
-                  Container(
-                    margin: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-                          child: Image.asset(_productImage[3]),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                            child: Text(_productName[3], style: Theme.of(context).textTheme.headline1,)
-                        ),
-                        Divider(
-                          color: Theme.of(context).primaryColor,
-                          thickness: 1.5,
-                          endIndent: 40,
-                          indent: 12,
-                          height: 10.0,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
-                          child: Text(productDetail),
-                        ),
-                        SizedBox(
-                          height: size.height*0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ProductSizeButton(text: 'S'),
-                            ProductSizeButton(text: 'N'),
-                            ProductSizeButton(text: 'L'),
-                          ],
-                        ),
-                        ProductAddToBasketButton(price: 9900),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: size.height*0.05),
-        FlatButton(
-          onPressed: (){},
-          child: Text('Load more', style: Theme.of(context).textTheme.headline5),
-        ),
-      ],
-    );
-  }
-}
-
-
-class ProductSizeButton extends StatelessWidget {
-  final String text;
-
-  const ProductSizeButton({
-    Key key, this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 45.0,
-      height: 40.0,
-      child: OutlineButton(
-        borderSide: BorderSide(
-          width: 2,
-          color: Colors.redAccent,
-        ),
-        textColor: Colors.redAccent,
-        highlightedBorderColor: Colors.redAccent,
-        child: Text(text, style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold )),
-        onPressed: (){
-          print('pressed!');
-          },
-        highlightColor: Theme.of(context).accentColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        splashColor: Theme.of(context).accentColor,
       ),
     );
   }
 }
 
-class UserFriendly extends StatelessWidget {
-  const UserFriendly({
-    Key key, this.word, this.user,
-  }) : super(key: key);
 
-  final String word;
-  final String user;
+enum Button {
+  Small,
+  Medium,
+  Large,
+}
+
+List<String> productNames = [];
+
+class ProductContainer extends StatefulWidget {
+
+  ProductContainer({
+    @required this.productName,
+    @required this.productDetail,
+    this.productPriceSmall,
+    this.productPriceMedium,
+    this.productPriceLarge
+  });
+
+  final String productName;
+  final String productDetail;
+  final int productPriceSmall;
+  final int productPriceMedium;
+  final int productPriceLarge;
+
+  @override
+  _ProductContainerState createState() => _ProductContainerState();
+}
+
+class _ProductContainerState extends State<ProductContainer> {
+
+  //TODO:5 if
+  Button selectedButton;
+  int _price = 10000;
+  String _size = 'Small';
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 200.0, top: 10.0, bottom: 5.0),
-      child: Row(
-        children: <Widget>[
-          Text(word,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              )),
-          SizedBox(
-            height: 5.0,
+      width:  180.0,
+      height:  450.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(4.0, 2.0),
+            blurRadius: 4.0,
+            spreadRadius: 2.0,
           ),
-          Text(' $user!',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Theme.of(context).accentColor,
-                fontWeight: FontWeight.bold,
-              )),
+        ],
+      ),
+      margin: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, SingleProductScreen.id);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25.0),
+                topRight: Radius.circular(25.0),
+              ),
+              child: Image.asset(
+                  _productImage[1],
+                  height: 180.0,
+                  width: 180.0
+              ),
+            ),
+          ),
+          Container(
+              width: 250.0,
+              margin: EdgeInsets.only(left: 10.0, top: 3.0, bottom: 0.0),
+              child: Text(widget.productName,
+                  textAlign: TextAlign.center,
+                  style: kProductTitleTextStyle.copyWith(fontSize: 16.0))
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            width: 250.0,
+            child: Divider(
+              color: Theme.of(context).primaryColor,
+              thickness: 1.5,
+              height: 10.0,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(15.0),
+            child: Text(widget.productDetail,
+                style: kProductDetailTextStyle
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    selectedButton = Button.Small;
+                    _price = widget.productPriceSmall;
+                    _size = 'Small';
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
+                  width: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: selectedButton == Button.Small ?
+                    Colors.redAccent:
+                    Colors.transparent,
+                    border: Border.all(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        selectedButton == Button.Small ? 30.0 : 10.0
+                    )),
+                  ),
+                  child: Center(
+                    child: Text('S',
+                        style: selectedButton == Button.Small ?
+                        kProductSizeButtonActiveTextStyle :
+                        kProductSizeButtonTextStyle
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    selectedButton = Button.Medium;
+                    _price = widget.productPriceMedium;
+                    _size = 'Medium';
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
+                  width: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: selectedButton == Button.Medium ?
+                    Colors.redAccent:
+                    Colors.transparent,
+                    border: Border.all(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        selectedButton == Button.Medium ? 30.0 : 10.0
+                    )),
+                  ),
+                  child: Center(
+                    child: Text('M',
+                        style: selectedButton == Button.Medium ?
+                        kProductSizeButtonActiveTextStyle :
+                        kProductSizeButtonTextStyle
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    selectedButton = Button.Large;
+                    _price = widget.productPriceLarge;
+                    _size = 'Large';
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
+                  width: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: selectedButton == Button.Large ?
+                    Colors.redAccent:
+                    Colors.transparent,
+                    border: Border.all(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        selectedButton == Button.Large ? 30.0 : 10.0
+                    )),
+                  ),
+                  child: Center(
+                    child: Text('L',
+                        style: selectedButton == Button.Large ?
+                        kProductSizeButtonActiveTextStyle :
+                        kProductSizeButtonTextStyle
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          AddToBasketButton(
+              price: _price,
+              onPress: (){
+                  Navigator.pushNamed(context, BagScreen.id);
+               }
+          ),
         ],
       ),
     );
   }
 }
+
+
+

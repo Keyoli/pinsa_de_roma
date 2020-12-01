@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/MosQuzz/AndroidStudioProjects/pinsa_de_roma/lib/screens/autentication/landing_screen.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
 
+import '../screens/autentication/landing_screen.dart';
 import 'navigation_screens/adminSettings.dart';
-
 
 var _user = 'MosQuzz';
 var _userphone = '89973682';
-
 
 List<String> _title = [
   'Order',
@@ -31,7 +29,6 @@ List<String> _dummyTime = [
 
 int _track = 1;
 
-
 List<String> _productType = [
   'Pinsa',
   'Salad',
@@ -46,18 +43,14 @@ List<String> _productName = [
   'Chicken salad',
 ];
 
-
 class AdminScreen extends StatefulWidget {
-
   @override
   _AdminScreenState createState() => _AdminScreenState();
 }
 
 class _AdminScreenState extends State<AdminScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -66,18 +59,20 @@ class _AdminScreenState extends State<AdminScreen> {
           backgroundColor: Colors.redAccent,
           elevation: 12.0,
           bottom: PreferredSize(
-              child: Container(),
-              preferredSize: Size.fromHeight(65.0)),
+              child: Container(), preferredSize: Size.fromHeight(65.0)),
           title: Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: Container(
               height: 45.0,
               width: 300.0,
-              child: TextFieldConstrain(child: AdminSearchPanel(prokey: false, hintText: 'Search',)),
+              child: TextFieldConstrain(
+                  child: AdminSearchPanel(
+                prokey: false,
+                hintText: 'Search',
+              )),
             ),
           ),
         ),
-
         drawer: Drawer(
           child: ListView(
             children: <Widget>[
@@ -87,43 +82,54 @@ class _AdminScreenState extends State<AdminScreen> {
                     margin: EdgeInsets.only(right: 230.0, top: 15.0),
                     width: 60.0,
                     child: IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.cancel, color: Colors.black87, size: 45.0,),
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Colors.black87,
+                        size: 45.0,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 60.0,
                   ),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                     child: _textStyling('Completed'),
                   ),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                     child: _textStyling('Deleted'),
                   ),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                     child: _textStyling('Drafted'),
                   ),
                   FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AdminSettingsScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminSettingsScreen()));
                     },
                     child: _textStyling('Settings'),
                   ),
                   FlatButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LandingPage()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  LandingPage()));
                     },
                     child: _textStyling('Logout'),
                   ),
@@ -135,7 +141,10 @@ class _AdminScreenState extends State<AdminScreen> {
         body: ListView(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 20.0, bottom: 20.0,),
+              margin: EdgeInsets.only(
+                top: 20.0,
+                bottom: 20.0,
+              ),
               child: Center(
                 child: Container(
                   height: 60.0,
@@ -145,7 +154,10 @@ class _AdminScreenState extends State<AdminScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     boxShadow: [
                       BoxShadow(
-                        offset: Offset(3.0, 2.0,),
+                        offset: Offset(
+                          3.0,
+                          2.0,
+                        ),
                         blurRadius: 2.0,
                         color: Colors.black54,
                       ),
@@ -154,11 +166,10 @@ class _AdminScreenState extends State<AdminScreen> {
                   child: Center(
                     child: Text(_title[0],
                         style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 42.0,
-                        fontFamily: 'Calibri'
-                    )),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 42.0,
+                            fontFamily: 'Calibri')),
                   ),
                 ),
               ),
@@ -175,7 +186,8 @@ class _AdminScreenState extends State<AdminScreen> {
             Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 5.0, bottom: 14.0),
+                  padding: EdgeInsets.only(
+                      left: 12.0, right: 12.0, top: 5.0, bottom: 14.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -193,7 +205,8 @@ class _AdminScreenState extends State<AdminScreen> {
                           onPressed: () {
                             print('Gesture Detecter go back');
                           },
-                          child: Icon(Icons.cancel, size: 50.0, color: Colors.redAccent),
+                          child: Icon(Icons.cancel,
+                              size: 50.0, color: Colors.redAccent),
                           backgroundColor: Colors.transparent,
                         ),
                       ),
@@ -201,13 +214,13 @@ class _AdminScreenState extends State<AdminScreen> {
                   ),
                 ),
                 InkWell(
-                  onLongPress: (){
+                  onLongPress: () {
                     print('Do alert');
                   },
                   child: OrderInformation(),
                 ),
                 SizedBox(
-                  height: size.height*0.9/80,
+                  height: size.height * 0.9 / 80,
                 ),
                 OrderByInformation(),
                 ShortDetail(),
@@ -220,7 +233,6 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 }
 
-
 class OrderByInformation extends StatefulWidget {
   @override
   _OrderByInformationState createState() => _OrderByInformationState();
@@ -231,8 +243,8 @@ class _OrderByInformationState extends State<OrderByInformation> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height*3/16,
-      width: size.width*15/16,
+      height: size.height * 3 / 16,
+      width: size.width * 15 / 16,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30.0)),
           color: Colors.white,
@@ -243,24 +255,25 @@ class _OrderByInformationState extends State<OrderByInformation> {
               spreadRadius: 1.5,
               color: Colors.grey[600],
             ),
-          ]
-      ),
+          ]),
       //Right shahagdah fold after pressed down button
       child: Stack(
         children: <Widget>[
           Row(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left:20.0, top: 30.0),
+                padding: EdgeInsets.only(left: 20.0, top: 30.0),
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                           width: 160.0,
-                          child: Text( _dummyTime[0],
-                              style: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Calibri'))
-                      ),
+                          child: Text(_dummyTime[0],
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Calibri'))),
                     ],
                   ),
                 ),
@@ -274,7 +287,7 @@ class _OrderByInformationState extends State<OrderByInformation> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left:28.0, top: 30.0),
+                padding: EdgeInsets.only(left: 28.0, top: 30.0),
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,13 +296,19 @@ class _OrderByInformationState extends State<OrderByInformation> {
                           width: 150.0,
                           child: Column(
                             children: <Widget>[
-                              Text( '$_user contact:',
-                                  style: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Calibri')),
-                              Text( '$_userphone',
-                                  style: TextStyle(color: Colors.black87, fontSize: 21.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold)),
+                              Text('$_user contact:',
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 20.0,
+                                      fontFamily: 'Calibri')),
+                              Text('$_userphone',
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 21.0,
+                                      fontFamily: 'Calibri',
+                                      fontWeight: FontWeight.bold)),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -297,24 +316,22 @@ class _OrderByInformationState extends State<OrderByInformation> {
             ],
           ),
           Positioned(
-            right:60,
+            right: 60,
             top: 60,
             child: InkWell(
                 child: Padding(
                   padding: const EdgeInsets.all(1.0),
                   child: Icon(Icons.arrow_drop_down, size: 70.0),
                 ),
-                onTap: (){
+                onTap: () {
                   print('Do here');
-                }
-            ),
+                }),
           ),
         ],
       ),
     );
   }
 }
-
 
 class OrderInformation extends StatefulWidget {
   @override
@@ -341,17 +358,15 @@ class _OrderInformationState extends State<OrderInformation> {
                 ],
               ),
             ),
-            actions: <Widget>[
-              
-            ],
+            actions: <Widget>[],
           );
         },
       );
     }
 
-    return  Container(
-      height: size.height*4.2/16,
-      width: size.width*15/16,
+    return Container(
+      height: size.height * 4.2 / 16,
+      width: size.width * 15 / 16,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30.0)),
           color: Colors.blueAccent,
@@ -362,8 +377,7 @@ class _OrderInformationState extends State<OrderInformation> {
               spreadRadius: 1.5,
               color: Colors.grey[600],
             ),
-          ]
-      ),
+          ]),
       //Right shahagdah fold after pressed down button
       child: Stack(
         children: <Widget>[
@@ -373,12 +387,19 @@ class _OrderInformationState extends State<OrderInformation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Location:', style: TextStyle(color: Colors.white, fontSize: 28.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold)),
+                  Text('Location:',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28.0,
+                          fontFamily: 'Calibri',
+                          fontWeight: FontWeight.bold)),
                   Container(
                       width: 270.0,
-                      child: Text( _orderLocationDummy[0],
-                          style: TextStyle(color: Colors.white, fontSize: 20.0, fontFamily: 'Calibri'))
-                  ),
+                      child: Text(_orderLocationDummy[0],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontFamily: 'Calibri'))),
                 ],
               ),
             ),
@@ -390,10 +411,9 @@ class _OrderInformationState extends State<OrderInformation> {
                   padding: const EdgeInsets.all(1.0),
                   child: Icon(Icons.arrow_drop_down, size: 70.0),
                 ),
-                onTap: (){
+                onTap: () {
                   print('Do here');
-                }
-            ),
+                }),
           ),
           Positioned(
             top: -12,
@@ -409,19 +429,27 @@ class _OrderInformationState extends State<OrderInformation> {
             ),
           ),
           Positioned(
-            top:100,
+            top: 100,
             child: Padding(
               padding: EdgeInsets.all(14.0),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Type & Name:', style: TextStyle(color: Colors.white, fontSize: 25.0, fontFamily: 'Calibri', fontWeight: FontWeight.bold)),
+                    Text('Type & Name:',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25.0,
+                            fontFamily: 'Calibri',
+                            fontWeight: FontWeight.bold)),
                     Container(
                         width: 270.0,
-                        child: Text( _productType[0] + 'type, ' + _productName[0],
-                            style: TextStyle(color: Colors.white, fontSize: 18.0, fontFamily: 'Calibri'))
-                    ),
+                        child: Text(
+                            _productType[0] + 'type, ' + _productName[0],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontFamily: 'Calibri'))),
                   ],
                 ),
               ),
@@ -430,7 +458,6 @@ class _OrderInformationState extends State<OrderInformation> {
           Positioned(
             right: 15,
             top: 115,
-
             child: InkWell(
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
@@ -458,7 +485,10 @@ class ShortDetail extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 15.0, bottom: 20.0,),
+          margin: EdgeInsets.only(
+            top: 15.0,
+            bottom: 20.0,
+          ),
           child: Container(
             height: 50.0,
             width: 180.0,
@@ -467,7 +497,10 @@ class ShortDetail extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
               boxShadow: [
                 BoxShadow(
-                  offset: Offset(3.0, 2.0,),
+                  offset: Offset(
+                    3.0,
+                    2.0,
+                  ),
                   blurRadius: 2.0,
                   color: Colors.black54,
                 ),
@@ -479,13 +512,15 @@ class ShortDetail extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 27.0,
-                      fontFamily: 'Calibri'
-                  )),
+                      fontFamily: 'Calibri')),
             ),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 15.0, bottom: 20.0,),
+          margin: EdgeInsets.only(
+            top: 15.0,
+            bottom: 20.0,
+          ),
           child: Container(
             height: 50.0,
             width: 180.0,
@@ -494,7 +529,10 @@ class ShortDetail extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
               boxShadow: [
                 BoxShadow(
-                  offset: Offset(3.0, 2.0,),
+                  offset: Offset(
+                    3.0,
+                    2.0,
+                  ),
                   blurRadius: 2.0,
                   color: Colors.black54,
                 ),
@@ -506,8 +544,7 @@ class ShortDetail extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0,
-                      fontFamily: 'Calibri'
-                  )),
+                      fontFamily: 'Calibri')),
             ),
           ),
         ),
@@ -516,26 +553,24 @@ class ShortDetail extends StatelessWidget {
   }
 }
 
-
-ListTile _textStyling(String text){
+ListTile _textStyling(String text) {
   return ListTile(
-    title: Text(text,
+    title: Text(
+      text,
       style: TextStyle(
-          color: Colors.black87,
-          fontSize: 28.0,
-          fontFamily: 'Calibri'
-      ),
+          color: Colors.black87, fontSize: 28.0, fontFamily: 'Calibri'),
     ),
   );
 }
 
 class AdminSearchPanel extends StatefulWidget {
-
   final String hintText;
   final bool prokey;
 
   const AdminSearchPanel({
-    Key key, this.prokey, this.hintText,
+    Key key,
+    this.prokey,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -543,40 +578,41 @@ class AdminSearchPanel extends StatefulWidget {
 }
 
 class _AdminSearchPanelState extends State<AdminSearchPanel> {
-
   Color _color;
   int _check;
 
-  Widget CupertinoTextStyle(String param){
+  Widget CupertinoTextStyle(String param) {
     return Text(param,
-    style: TextStyle(
-      fontSize: 30.0,
-      fontFamily: 'Calibri',
-      fontWeight: FontWeight.bold,
-      color: _check != 0 ? _color = Colors.black87 : Colors.redAccent, //Shiideegui baigaa, Uchirn save 1 to 4 array tuuniig yj yg selected hiisniign ulaan bolgoh talaar sanaa oloogui
-    ));
+        style: TextStyle(
+          fontSize: 30.0,
+          fontFamily: 'Calibri',
+          fontWeight: FontWeight.bold,
+          color: _check != 0
+              ? _color = Colors.black87
+              : Colors
+                  .redAccent, //Shiideegui baigaa, Uchirn save 1 to 4 array tuuniig yj yg selected hiisniign ulaan bolgoh talaar sanaa oloogui
+        ));
   }
 
-  showSearchFilterBottomSheet(context){
+  showSearchFilterBottomSheet(context) {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context){
-        return CupertinoPicker(
-          onSelectedItemChanged: (int save){
-            setState(() {
-              _check = 0;
-            });
-          },
-          itemExtent: 50.0,
-          children: <Widget>[
-            CupertinoTextStyle('All'),
-            CupertinoTextStyle('Date'),
-            CupertinoTextStyle('Type'),
-            CupertinoTextStyle('User'),
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoPicker(
+            onSelectedItemChanged: (int save) {
+              setState(() {
+                _check = 0;
+              });
+            },
+            itemExtent: 50.0,
+            children: <Widget>[
+              CupertinoTextStyle('All'),
+              CupertinoTextStyle('Date'),
+              CupertinoTextStyle('Type'),
+              CupertinoTextStyle('User'),
+            ],
+          );
+        });
   }
 
   @override
@@ -584,19 +620,18 @@ class _AdminSearchPanelState extends State<AdminSearchPanel> {
     return Container(
       margin: EdgeInsets.only(left: 20.0, bottom: 1.8),
       child: TextField(
-        onChanged: (value){
-        },
+        onChanged: (value) {},
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: widget.hintText,
           suffixIcon: Container(
             child: IconButton(
-              onPressed: (){
+              onPressed: () {
                 setState(() {
                   showSearchFilterBottomSheet(context);
                 });
               },
-                icon: Icon(Icons.filter_list),
+              icon: Icon(Icons.filter_list),
             ),
           ),
           icon: Icon(Icons.search),

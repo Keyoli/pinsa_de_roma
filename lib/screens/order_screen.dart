@@ -1,20 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinsaderoma/components/TextFieldConstrain.dart';
 import 'package:pinsaderoma/components/constant.dart';
 
+final _firestore = FirebaseFirestore.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
 
 class OrderScreen extends StatefulWidget {
   static const String id = '/order_screen';
-
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-
-
   bool _check;
   String _user = 'MosQuzz';
   Color _colorOfPay = Colors.white60;
@@ -34,11 +35,11 @@ class _OrderScreenState extends State<OrderScreen> {
     _color2 = Colors.redAccent;
   }
 
-  void purchaseTypeAnimation(){
-    if(_check == true){
-        _check = false;
-        _colorOfPay = Colors.redAccent;
-        _colorOfPay2 = Colors.white60;
+  void purchaseTypeAnimation() {
+    if (_check == true) {
+      _check = false;
+      _colorOfPay = Colors.redAccent;
+      _colorOfPay2 = Colors.white60;
     } else {
       _colorOfPay2 = Colors.redAccent;
       _colorOfPay = Colors.white60;
@@ -64,11 +65,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text('Purchase',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline3,
+                        Text(
+                          'Purchase',
+                          style: Theme.of(context).textTheme.headline3,
                         ),
                         FloatingActionButton(
                           backgroundColor: Colors.transparent,
@@ -77,8 +76,11 @@ class _OrderScreenState extends State<OrderScreen> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(Icons.arrow_back, color: Colors.white,
-                            size: 45.0,),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 45.0,
+                          ),
                         ),
                       ],
                     ),
@@ -98,14 +100,15 @@ class _OrderScreenState extends State<OrderScreen> {
                           height: 75.0,
                           width: 150.0,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(25.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
                             border: Border.all(color: _color, width: 3.0),
                           ),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 20.0),
-                              child: Text('Delivery Service',
+                              child: Text(
+                                'Delivery Service',
                                 style: TextStyle(
                                   color: _color,
                                   fontSize: 27.0,
@@ -127,14 +130,15 @@ class _OrderScreenState extends State<OrderScreen> {
                           height: 75.0,
                           width: 155.0,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(25.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
                             border: Border.all(color: _color2, width: 3.0),
                           ),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 20.0),
-                              child: Text('Restaurant Order',
+                              child: Text(
+                                'Restaurant Order',
                                 style: TextStyle(
                                   color: _color2,
                                   fontSize: 27.0,
@@ -152,21 +156,23 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('Phone number', style: TextStyle(
-                          fontFamily: 'Segoe',
-                          color: Colors.grey[600],
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
+                        Text(
+                          'Phone number',
+                          style: TextStyle(
+                            fontFamily: 'Segoe',
+                            color: Colors.grey[600],
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            padding: EdgeInsets.only(left:35.0, right: 35.0, bottom: 30.0),
+                            padding: EdgeInsets.only(
+                                left: 35.0, right: 35.0, bottom: 30.0),
                             child: TextField(
-                              onChanged: (value){
-                                setState(() {
-
-                                });
+                              onChanged: (value) {
+                                setState(() {});
                               },
                               textAlign: TextAlign.center,
                               decoration: kTextFieldDecoration.copyWith(
@@ -193,18 +199,21 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('Location 1', style: TextStyle(
-                          fontFamily: 'Segoe',
-                          color: Colors.grey[600],
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                      //cupertinSeletor(),
+                        Text(
+                          'Location 1',
+                          style: TextStyle(
+                            fontFamily: 'Segoe',
+                            color: Colors.grey[600],
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        //cupertinSeletor(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: FlatButton(
-                            onPressed: (){
-                                showModelBottomSheetPicker(context);
+                            onPressed: () {
+                              showModelBottomSheetPicker(context);
                             },
                             color: Colors.white60,
                             child: Container(
@@ -222,15 +231,22 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('Location 3', style: TextStyle(
-                          fontFamily: 'Segoe',
-                          color: Colors.grey[600],
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
+                        Text(
+                          'Location 3',
+                          style: TextStyle(
+                            fontFamily: 'Segoe',
+                            color: Colors.grey[600],
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TextFieldBioConstrain(child: TextFieldArea(hintText: 'Type your destination for the order,', prokey: false)),
+                          child: TextFieldBioConstrain(
+                              child: TextFieldArea(
+                                  hintText:
+                                      'Type your destination for the order,',
+                                  prokey: false)),
                         ),
                       ],
                     ),
@@ -240,7 +256,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Column(
                       children: <Widget>[
                         Center(
-                          child: Text('Purchase Type', style: Theme.of(context).textTheme.headline4),
+                          child: Text('Purchase Type',
+                              style: Theme.of(context).textTheme.headline4),
                         ),
                         Center(
                           child: Container(
@@ -258,7 +275,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlatButton(
-                        onPressed: (){
+                        onPressed: () {
                           setState(() {
                             purchaseTypeAnimation();
                           });
@@ -269,20 +286,21 @@ class _OrderScreenState extends State<OrderScreen> {
                           width: 150.0,
                           decoration: BoxDecoration(
                             border: Border.all(width: 2.5, color: _colorOfPay),
-                            borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(35.0)),
                           ),
                           child: Center(
-                            child: Text(
-                                'Visa Card', style: TextStyle(
-                              color: _colorOfPay,
-                              fontSize: 22.0,
-                              fontFamily: 'Calibri',
-                            )),
+                            child: Text('Visa Card',
+                                style: TextStyle(
+                                  color: _colorOfPay,
+                                  fontSize: 22.0,
+                                  fontFamily: 'Calibri',
+                                )),
                           ),
                         ),
                       ),
                       FlatButton(
-                        onPressed: (){
+                        onPressed: () {
                           setState(() {
                             purchaseTypeAnimation();
                           });
@@ -293,25 +311,28 @@ class _OrderScreenState extends State<OrderScreen> {
                           width: 150.0,
                           decoration: BoxDecoration(
                             border: Border.all(width: 2.5, color: _colorOfPay2),
-                            borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(35.0)),
                           ),
                           child: Center(
-                            child: Text(
-                                'Pay Cash', style: TextStyle(
-                              color: _colorOfPay2,
-                              fontSize: 22.0,
-                              fontFamily: 'Calibri',
-                            )),
+                            child: Text('Pay Cash',
+                                style: TextStyle(
+                                  color: _colorOfPay2,
+                                  fontSize: 22.0,
+                                  fontFamily: 'Calibri',
+                                )),
                           ),
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(top:40.0),
+                    margin: EdgeInsets.only(top: 40.0),
                     child: Center(
-                        child: ProceedButtonTo(width: 380.0, text: 'PROCEED $_defaultPrice TG',)
-                    ),
+                        child: ProceedButtonTo(
+                      width: 380.0,
+                      text: 'PROCEED $_defaultPrice TG',
+                    )),
                   ),
                 ],
               ),
@@ -321,13 +342,13 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
     );
   }
-
-  
 }
 
 class UserFriendly extends StatelessWidget {
   const UserFriendly({
-    Key key, this.word, this.user,
+    Key key,
+    this.word,
+    this.user,
   }) : super(key: key);
 
   final String word;
@@ -362,19 +383,23 @@ class UserFriendly extends StatelessWidget {
 }
 
 class ProceedButtonTo extends StatelessWidget {
-
   final String text;
   final double width;
 
   const ProceedButtonTo({
-    Key key, this.text, this.width,
+    Key key,
+    this.text,
+    this.width,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(28.0), topRight: Radius.circular(28.0),),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(28.0),
+            topRight: Radius.circular(28.0),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black38,
@@ -382,18 +407,25 @@ class ProceedButtonTo extends StatelessWidget {
               blurRadius: 1.0,
               spreadRadius: 2.0,
             )
-          ]
-      ),
+          ]),
       width: width,
       child: ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(28.0), topRight: Radius.circular(28.0),),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(28.0),
+          topRight: Radius.circular(28.0),
+        ),
         child: FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 12.0),
-          onPressed: (){
-           print('pop if pay by cash ');
+          onPressed: () {
+            print('pop if pay by cash ');
           },
           color: Colors.redAccent,
-          child: Text(text, style: TextStyle( color: Colors.white, fontSize: 30.0, fontFamily: 'Segoe', fontWeight: FontWeight.bold)),
+          child: Text(text,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.0,
+                  fontFamily: 'Segoe',
+                  fontWeight: FontWeight.bold)),
           splashColor: Theme.of(context).accentColor,
           focusColor: Theme.of(context).accentColor,
         ),
@@ -402,13 +434,12 @@ class ProceedButtonTo extends StatelessWidget {
   }
 }
 
-void showModelBottomSheetPicker(context){
+void showModelBottomSheetPicker(context) {
   showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      isScrollControlled: true ,
-      builder: (BuildContext context)
-      {
+      isScrollControlled: true,
+      builder: (BuildContext context) {
         return Container(
           color: Colors.white,
           height: 300.0,

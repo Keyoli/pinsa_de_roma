@@ -1,21 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+final _firestore = FirebaseFirestore.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
+
 String _user = 'MosQuzz';
-
-List<double> _productPriceList = [
-  9900,
-  12000,
-  36000,
-  9900,
-  99999,
-];
-
-String _productSize = 'Small';
-
-var _productDetail = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus esse nobis rem sequi tempore.';
-var _total = 1;
 
 List<String> _productType = [
   'Pinsa',
@@ -24,43 +16,25 @@ List<String> _productType = [
   'Drink',
 ];
 
-List<String> _productName = [
-  'Sizier salad',
-  'Cheese salad',
-  'German salad',
-  'Chicken salad',
-];
-
-
-List<String> _productImage = [
-  'images/product/salad/product1.jpg',
-  'images/product/salad/product2.jpg',
-  'images/product/salad/product3.jpg',
-  'images/product/salad/product4.jpg',
-];
-
 class BagScreen extends StatefulWidget {
   static const String id = 'bag_screen';
 
-  BagScreen({
-    this.productName,
-    this.productSize,
-    this.productFinalPrice,
-    this.productDetail
-  });
+  BagScreen(
+      {this.productName,
+      this.productSize,
+      this.productFinalPrice,
+      this.productDetail});
 
-    final String productName;
-    final String productSize;
-    final String productDetail;
-    final int productFinalPrice;
+  final String productName;
+  final String productSize;
+  final String productDetail;
+  final int productFinalPrice;
 
-@override
+  @override
   _BagScreenState createState() => _BagScreenState();
 }
 
 class _BagScreenState extends State<BagScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -69,69 +43,73 @@ class _BagScreenState extends State<BagScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    Size size = MediaQuery.of(context).size;
-    bool _hasProduct;
-
     return Scaffold(
       backgroundColor: Color.fromRGBO(24, 51, 98, 100),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(24, 51, 98, 100),
-        leading: Text('My Bag',
+        title: Text(
+          'My Bag',
           style: Theme.of(context).textTheme.headline3,
         ),
+        leading: Container(),
+        leadingWidth: 0,
         actions: [
           IconButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 45.0,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: 45.0,
+            ),
           ),
         ],
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: 12,
-          itemBuilder: (_, index){
+        child: StreamBuilder(
+          stream: _firestore
+              .collection('order')
+              .where('user_id', isEqualTo: auth.currentUser.uid)
+              .where('state', isEqualTo: 'waiting')
+              .snapshots(),
+          builder: (_, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: Text(
+                  'Loading..',
+                ),
+              );
+            }
 
-            return Column(
-              children: [
-                  Container(
-                     margin: EdgeInsets.only(left: 300.0),
-                        child: Icon(Icons.cancel,
-                            size: 45.0,
-                            color: Theme.of(context).accentColor
-                        ),
-                       ),
-                  Container(
-                    margin: EdgeInsets.only(top: 2.0, bottom: 5.0, right: 5.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                            BannerImageContainer(),
-                            BannerProductDetail(
-                                productPrice: widget.productFinalPrice,
-                                productSize: widget.productSize,
-                                //*TODO make brain in calculation from finalProduct Screen, if product number increase
-                                // There will be calcalute * and return current price over here
-                                //Else just return current price, which means price of small, medium, large will send to there
-                                //as well
-                                total: 1,
-                                productType:
-                                'Pinsa'
-                                 ),
-                        ],
-                     ),
-                  ),
-                Container(
-                     width: size.width,
-                     margin: EdgeInsets.symmetric(vertical: 15.0),
-                     child: Divider(
-                      color: Colors.grey.shade900,
-                      thickness: 2.0,
-                      ),
-                   ),
-            ],
+            final orders = snapshot.data.docs;
+            List<ProductInfo> productContainers = [];
+            for (var order in orders) {
+              final orderID = order.documentID.toString();
+              final productSize = order.data()['size'];
+              final productCount = order.data()['count'];
+              final productType = order.data()['product_type'];
+              final productName = order.data()['product_name'];
+              final productDetail = order.data()['product_detail'];
+              final productUrl = order.data()['product_url'];
+              final finalProductPrice = order.data()['finalProductPrice'];
+
+              final productContainer = ProductInfo(
+                orderID: orderID,
+                productUrl: productUrl,
+                productSize: productSize,
+                productCount: productCount,
+                productDetail: productDetail,
+                productName: productName,
+                finalProductPrice: finalProductPrice,
+                productType: productType,
+              );
+
+              productContainers.add(productContainer);
+            }
+
+            return ListView(
+              children: productContainers,
             );
           },
         ),
@@ -140,8 +118,94 @@ class _BagScreenState extends State<BagScreen> {
   }
 }
 
-class ProductRateSlider extends StatelessWidget {
+class ProductInfo extends StatelessWidget {
+  ProductInfo(
+      {@required this.orderID,
+      @required this.productName,
+      @required this.productDetail,
+      @required this.productUrl,
+      @required this.finalProductPrice,
+      @required this.productCount,
+      @required this.productType,
+      @required this.productSize});
 
+  final String orderID;
+  final String productName;
+  final String productDetail;
+  final String productUrl;
+  final String productSize;
+  final String productType;
+  final int finalProductPrice;
+  final int productCount;
+
+  @override
+  Widget build(BuildContext context) {
+    CollectionReference orders = FirebaseFirestore.instance.collection('order');
+    Size size = MediaQuery.of(context).size;
+
+    Future<void> changeStateToDelete(id) {
+      return orders
+          .doc(id)
+          .update({'state': 'deleted'})
+          .then((value) => print("User Deleted order"))
+          .catchError((error) => print("Failed to delete order: $error"));
+    }
+
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () async {
+            await changeStateToDelete(this.orderID);
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 300.0),
+            child: Icon(Icons.cancel,
+                size: 45.0, color: Theme.of(context).accentColor),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 2.0, bottom: 5.0, right: 5.0),
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: BannerImageContainer(
+                  image: Image.network(
+                    this.productUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              BannerProductDetail(
+                  // productPrice: widget.productFinalPrice,
+                  productPrice: this.productCount * this.finalProductPrice,
+                  // productSize: widget.productSize,
+                  productSize: this.productSize,
+                  //*TODO make brain in calculation from finalProduct Screen, if product number increase
+                  // There will be calcalute * and return current price over here
+                  //Else just return current price, which means price of small, medium, large will send to there
+                  //as well
+                  productName: this.productName,
+                  total: this.productCount,
+                  productDetail: this.productDetail,
+                  productType: this.productType),
+            ],
+          ),
+        ),
+        Container(
+          width: size.width - 40,
+          margin: EdgeInsets.symmetric(vertical: 15.0),
+          child: Divider(
+            color: Colors.grey.shade900,
+            thickness: 2.0,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ProductRateSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -186,10 +250,8 @@ class ProductRateSlider extends StatelessWidget {
   }
 }
 
-
 class ProceedButtonRed extends StatelessWidget {
   @override
-
   const ProceedButtonRed({
     this.productPrice,
     this.icon,
@@ -204,23 +266,30 @@ class ProceedButtonRed extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).accentColor,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 4.0,bottom: 4.0),
-              child: Icon(icon, color: Colors.white, size: 50.0,),
-            ),
-            SizedBox(width: 10.0,),
-            Text('$title $productPrice₮', style: TextStyle(
+              padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+              child: Icon(
+                icon,
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-                fontFamily: 'Calibri'
-            )),
+                size: 50.0,
+              ),
+            ),
+            SizedBox(
+              width: 10.0,
+            ),
+            Text('$title $productPrice₮',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                    fontFamily: 'Calibri')),
           ],
         ),
       ),
@@ -228,10 +297,11 @@ class ProceedButtonRed extends StatelessWidget {
   }
 }
 
-
 class UserFriendly extends StatelessWidget {
   const UserFriendly({
-    Key key, this.word, this.user,
+    Key key,
+    this.word,
+    this.user,
   }) : super(key: key);
 
   final String word;
@@ -269,6 +339,8 @@ class BannerProductDetail extends StatelessWidget {
     this.productPrice,
     this.productSize,
     this.productType,
+    this.productDetail,
+    this.productName,
     this.total,
   });
 
@@ -276,22 +348,27 @@ class BannerProductDetail extends StatelessWidget {
   final int total;
   final String productSize;
   final String productType;
+  final String productDetail;
+  final String productName;
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(right: 30.0),
-          child: Text(_productName[0],
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-                fontFamily: 'Segoe',
-                fontWeight: FontWeight.bold,
-              )),
+          width: size.width / 2 - 50,
+          child: Text(
+            productName,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontFamily: 'Segoe',
+              fontWeight: FontWeight.bold,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         Text('$productType pinsa de Roma',
             style: TextStyle(
@@ -300,7 +377,7 @@ class BannerProductDetail extends StatelessWidget {
               fontFamily: 'Calibri',
             )),
         Container(
-          margin: EdgeInsets.only(right: size.width*0.22),
+          margin: EdgeInsets.only(right: size.width * 0.22),
           child: Text('Ingredient',
               style: TextStyle(
                 fontFamily: 'Calibri',
@@ -309,14 +386,13 @@ class BannerProductDetail extends StatelessWidget {
               )),
         ),
         Container(
-          width: size.width*0.45,
-          child: Text(_productDetail,
+          width: size.width * 0.45,
+          child: Text(productDetail,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 13.0,
                   fontStyle: FontStyle.italic,
-                  fontFamily: 'Calibri'
-              )),
+                  fontFamily: 'Calibri')),
         ),
         Row(
           children: <Widget>[
@@ -337,7 +413,10 @@ class BannerProductDetail extends StatelessWidget {
                     )),
               ],
             ),
-            Container(height: 45, child: VerticalDivider(thickness: 1.2, color: Colors.grey[600])),
+            Container(
+                height: 45,
+                child:
+                    VerticalDivider(thickness: 1.2, color: Colors.grey[600])),
             Column(
               children: <Widget>[
                 Text('$productPrice₮',
@@ -355,7 +434,10 @@ class BannerProductDetail extends StatelessWidget {
                     )),
               ],
             ),
-            Container(height: 45, child: VerticalDivider(thickness: 1.2, color: Colors.grey[600])),
+            Container(
+                height: 45,
+                child:
+                    VerticalDivider(thickness: 1.2, color: Colors.grey[600])),
             Column(
               children: <Widget>[
                 Text('$total/x',
@@ -381,7 +463,6 @@ class BannerProductDetail extends StatelessWidget {
 }
 
 class BannerImageContainer extends StatelessWidget {
-
   BannerImageContainer({
     this.image,
   });
@@ -406,8 +487,12 @@ class BannerImageContainer extends StatelessWidget {
       ),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(45.0),
-          child: Image.asset(_productImage[0], fit: BoxFit.cover,)
-      ),
+          child: this.image != null
+              ? this.image
+              : Image.asset(
+                  'images/product/salad/product1.jpg',
+                  fit: BoxFit.cover,
+                )),
     );
   }
 }

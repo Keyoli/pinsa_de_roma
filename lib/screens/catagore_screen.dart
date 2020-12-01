@@ -13,46 +13,36 @@ import 'navigation_screens/settings_screen.dart';
 import 'navigation_screens/contact_screen.dart';
 import 'bag_screen.dart';
 
-
-
 String status = 'Log in';
 
-var bannerItem = ['Salad' , 'Pinsa' , 'Drink' , 'Chicken'];
+var bannerItem = ['Salad', 'Pinsa', 'Drink', 'Chicken'];
 var bannerImage = [
-  'images/pizza.jpg',
-  'images/chicken.jpg',
   'images/salad.jpg',
+  'images/pizza.jpg',
   'images/soda.jpg',
+  'images/chicken.jpg',
 ];
 
-
-ListTile _textStyling(String text){
+ListTile _textStyling(String text) {
   return ListTile(
-    title: Text(text,
-      style: TextStyle(
-          color: Colors.white,
-          fontSize: 28.0,
-          fontFamily: 'Calibri'
-      ),
+    title: Text(
+      text,
+      style:
+          TextStyle(color: Colors.white, fontSize: 28.0, fontFamily: 'Calibri'),
     ),
   );
 }
 
-
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
 
 class CatagoreScreen extends StatefulWidget {
   static const String id = 'catagore_screen';
 
   @override
   _CatagoreScreenState createState() => _CatagoreScreenState();
-
 }
 
-
 class _CatagoreScreenState extends State<CatagoreScreen> {
-
   final _auth = FirebaseAuth.instance;
   String _user;
 
@@ -60,18 +50,17 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
   void initState() {
     super.initState();
     getCurrentUser();
-
   }
 
-  void getCurrentUser() async{
-    try{
+  void getCurrentUser() async {
+    try {
       final user = _auth.currentUser;
       if (user != null) {
         var loggedInUser = user;
         print(loggedInUser.email);
         _user = loggedInUser.email;
       }
-    } catch(e) {
+    } catch (e) {
       print('Error was thrown as MosQuzz! defends');
       print(e);
     }
@@ -83,29 +72,32 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
     var screenWidth = MediaQuery.of(context).size.width;
     Future<List<Widget>> createList() async {
       List<Widget> items = new List<Widget>();
-      String dataString = await DefaultAssetBundle.of(context).loadString("assets/data.json");
+      String dataString =
+          await DefaultAssetBundle.of(context).loadString("assets/data.json");
       List<dynamic> dataJSON = json.decode(dataString);
 
       dataJSON.forEach((object) {
         items.add(
           Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                            child: Image.asset(object["placeImage"], width:340 , height: 180.0, fit: BoxFit.cover),
-                      ),
+            padding: EdgeInsets.all(5.0),
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      child: Image.asset(object["placeImage"],
+                          width: 340, height: 180.0, fit: BoxFit.cover),
                     ),
-                  ],
-                ),
-                ),
+                  ),
+                ],
               ),
-          );
+            ),
+          ),
+        );
       });
       return items;
     }
@@ -133,21 +125,28 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
           title: Container(
               margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
               child: FlatButton(
-                  onPressed:(){
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) => CatagoreScreen()));
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => CatagoreScreen()));
                   },
-                  child: Image.asset('images/logo.png', height: 60, width: 120,))
-          ),
+                  child: Image.asset(
+                    'images/logo.png',
+                    height: 60,
+                    width: 120,
+                  ))),
           centerTitle: true,
-
           actions: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 15.0, top: 5.0),
               child: IconButton(
-                onPressed: (){
-                  Navigator.push(context, new MaterialPageRoute(builder: (context) => BagScreen()));
+                onPressed: () {
+                  Navigator.push(context,
+                      new MaterialPageRoute(builder: (context) => BagScreen()));
                 },
-                icon: Icon(Icons.shopping_basket, size: 40, color: Colors.white),
+                icon:
+                    Icon(Icons.shopping_basket, size: 40, color: Colors.white),
               ),
             ),
           ],
@@ -163,59 +162,71 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
                       margin: EdgeInsets.only(right: 230.0, top: 15.0),
                       width: 60.0,
                       child: IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.cancel, color: Colors.white, size: 45.0,),
+                        icon: Icon(
+                          Icons.cancel,
+                          color: Colors.white,
+                          size: 45.0,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 60.0,
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => CatagoreScreen(),
-                        ));
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => CatagoreScreen(),
+                            ));
                       },
                       child: _textStyling('Home'),
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => AboutScreen(),
-                        ));
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => AboutScreen(),
+                            ));
                       },
                       child: _textStyling('About'),
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => ContactScreen(),
-                        ));
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => ContactScreen(),
+                            ));
                       },
                       child: _textStyling('Contact'),
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         print('Gesture detecter');
                       },
                       child: _textStyling('Service'),
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (context) => UserSettingsScreen(),
-                        ));
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => UserSettingsScreen(),
+                            ));
                       },
                       child: _textStyling('Settings'),
                     ),
                     FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         autenticationStatus();
                       },
                       child: _textStyling(status),
@@ -231,12 +242,16 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
           width: screenWidth,
           height: screenHeight,
           child: SafeArea(
-            child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Welcome $_user', style: kProductTitleTextStyle,),
-                  BannerWidgetArea(),
+                  Text(
+                    'Welcome $_user',
+                    style: kProductTitleTextStyle,
+                  ),
+                  Expanded(child: BannerWidgetArea()),
                   FooterArea(),
                 ],
               ),
@@ -247,12 +262,11 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
     );
   }
 
-  void autenticationStatus(){
-    if(status == 'Log in'){
+  void autenticationStatus() {
+    if (status == 'Log in') {
       Navigator.pushNamed(context, LandingPage.id);
       status = 'Log out';
-    }
-    else{
+    } else {
       _showMyDialog();
       setState(() {
         status = 'Log in';
@@ -278,12 +292,11 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
             child: ListBody(
               children: <Widget>[
                 Text('$_user ,You have been successfully logged out',
-                  style: TextStyle(
-                    color: Colors.redAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                    fontFamily: 'Calibri'
-                  )),
+                    style: TextStyle(
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        fontFamily: 'Calibri')),
               ],
             ),
           ),
@@ -308,8 +321,7 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,
-                          fontFamily: 'Segoe'
-                      )),
+                          fontFamily: 'Segoe')),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -323,29 +335,29 @@ class _CatagoreScreenState extends State<CatagoreScreen> {
   }
 }
 
-
 class BannerWidgetArea extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
 
-    PageController controller = PageController(
-        viewportFraction: 0.8,
-        initialPage: 1);
+    PageController controller =
+        PageController(viewportFraction: 0.8, initialPage: 1);
     List<Widget> banners = [];
 
-    for(int i = 0; i < bannerItem.length; i++){
-      var bannerView = foodItems(title: bannerItem[i], shortDesc: "test", imageUrl: bannerImage[i],);
+    for (int i = 0; i < bannerItem.length; i++) {
+      var bannerView = foodItems(
+        title: bannerItem[i],
+        shortDesc: "test",
+        imageUrl: bannerImage[i],
+      );
       banners.add(bannerView);
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container (
+        Container(
           margin: EdgeInsets.all(10.0),
           child: Text('Rated Product',
               style: TextStyle(
@@ -394,7 +406,7 @@ class BannerWidgetArea extends StatelessWidget {
         ),
         Container(
           width: screenWidth,
-          height: screenHeight*7/16,
+          height: screenHeight * 7 / 16,
           child: PageView(
             controller: controller,
             scrollDirection: Axis.horizontal,
@@ -407,7 +419,6 @@ class BannerWidgetArea extends StatelessWidget {
 }
 
 class foodItems extends StatelessWidget {
-
   String title;
   String shortDesc;
   String imageUrl;
@@ -437,11 +448,20 @@ class foodItems extends StatelessWidget {
             ),
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              child: Image.asset(imageUrl, fit: BoxFit.cover,),
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+              onTap: () {
+                print(this.title);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductsScreen(
+                              title: this.title,
+                            )));
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -450,7 +470,8 @@ class foodItems extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.transparent, Colors.black54,
+                      Colors.transparent,
+                      Colors.black54,
                     ],
                   ),
                 ),
@@ -460,16 +481,18 @@ class foodItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(title , style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
-                      )),
-                      Text(shortDesc , style: TextStyle(
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 16.0,
-                      ))
+                      Text(title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 35.0,
+                          )),
+                      Text(shortDesc,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 16.0,
+                          ))
                     ],
                   ),
                 ),
